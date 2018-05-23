@@ -3,12 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://sanqian1006.github.io/post/centos6.9%E5%AE%89%E8%A3%85lnmp/</loc>
+    <lastmod>2018-05-23T14:08:54+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sanqian1006.github.io/about/</loc>
+    <lastmod>2018-05-23T11:44:22+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://sanqian1006.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://sanqian1006.github.io/</loc>
+    <lastmod>2018-05-23T14:08:54+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sanqian1006.github.io/post/</loc>
+    <lastmod>2018-05-23T14:08:54+08:00</lastmod>
     <priority>0</priority>
   </url>
   
