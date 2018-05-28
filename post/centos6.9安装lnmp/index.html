@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.40.3" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>centos6.9安装lnmp &middot; My New Hugo Site</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://neochang1006.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://neochang1006.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://neochang1006.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://neochang1006.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="My New Hugo Site" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://neochang1006.github.io/"><h1>My New Hugo Site</h1></a>
+      <p class="lead">
+      An elegant open source and mobile first theme for <a href="http://hugo.spf13.com">hugo</a> made by <a href="http://twitter.com/mdo">@mdo</a>. Originally made for Jekyll.
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://neochang1006.github.io/">Home</a> </li>
+      
+    </ul>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>centos6.9安装lnmp</h1>
+  <span class="post-date">Wed, May 23, 2018</span>
+  <p>your must run：</p>
+
+<pre><code>shell&gt; yum install -y make gcc gcc-c++ perl zlib-devel libaio libpng libpng-devel libjpeg-devel pcre-devel
+shell&gt; yum install -y libXpm-devel openssl openssl-devel libxml2-devel bzip2-devel.x86_64 libjpeg-turbo-devel
+</code></pre>
+
+<p>unnecessary run：</p>
+
+<pre><code>yum install -y freetype freetype-devel libtool cmake ncurses-devel bison re2c curl-devel wget
+rpm -ivh &quot;http://mirrors.sohu.com/fedora-epel/epel-release-latest-6.noarch.rpm&quot;
+yum install -y libmcrypt-devel re2c
+</code></pre>
+
+<p>first part：Install Nginx
+Document：<a href="https://www.nginx.com/resources/wiki/start/topics/tutorials/install/">https://www.nginx.com/resources/wiki/start/topics/tutorials/install/</a>
+一、Official CentOS packages
+To add NGINX yum repository, create a file named <code>/etc/yum.repos.d/nginx.repo</code> and paste one of the configurations below:
+CentOS:</p>
+
+<pre><code>shell&gt; vim /etc/yum.repos.d/nginx.repo
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=0
+enabled=1
+</code></pre>
+
+<p>二、Source Releases
+wget Stable NGINX</p>
+
+<pre><code>shell&gt; cd /usr/local/src
+shell&gt; wget http://nginx.org/download/nginx-1.10.1.tar.gz
+shell&gt; tar xf nginx-1.10.1.tar.gz
+</code></pre>
+
+<p>三、Building NGINX From Source
+After extracting the source, run these commands from a terminal:</p>
+
+<pre><code>shell&gt; cd nginx-1.10.1/
+shell&gt; ./configure
+return 
+  nginx path prefix: &quot;/usr/local/nginx&quot;
+  nginx binary file: &quot;/usr/local/nginx/sbin/nginx&quot;
+  nginx modules path: &quot;/usr/local/nginx/modules&quot;
+  nginx configuration prefix: &quot;/usr/local/nginx/conf&quot;
+  nginx configuration file: &quot;/usr/local/nginx/conf/nginx.conf&quot;
+  nginx pid file: &quot;/usr/local/nginx/logs/nginx.pid&quot;
+  nginx error log file: &quot;/usr/local/nginx/logs/error.log&quot;
+  nginx http access log file: &quot;/usr/local/nginx/logs/access.log&quot;
+  nginx http client request body temporary files: &quot;client_body_temp&quot;
+  nginx http proxy temporary files: &quot;proxy_temp&quot;
+  nginx http fastcgi temporary files: &quot;fastcgi_temp&quot;
+  nginx http uwsgi temporary files: &quot;uwsgi_temp&quot;
+  nginx http scgi temporary files: &quot;scgi_temp&quot;
+shell&gt; make
+shell&gt; make install
+</code></pre>
+
+<p>四、Starting, Stopping, and Restarting NGINX
+/usr/local/nginx/sbin
+Basic Example of Starting NGIN</p>
+
+<pre><code>shell&gt; ln -s  /usr/local/nginx/sbin/nginx  /usr/bin/nginx
+shell&gt; /usr/bin/nginx
+</code></pre>
+
+<p>second part：Install PHP
+Document：<a href="http://php.net/manual/zh/install.unix.nginx.php">http://php.net/manual/zh/install.unix.nginx.php</a>
+一、wget Stable PHP</p>
+
+<pre><code>shell&gt; cd /usr/local/src
+shell&gt; wget http://cn2.php.net/distributions/php-7.2.4.tar.gz
+shell&gt; tar xf php-7.2.4.tar.gz
+</code></pre>
+
+<p>二、configure and build PHP.
+This is where you customize PHP with various options, like which extensions will be enabled. Run ./configure &ndash;help for a list of available options. In our example we&rsquo;ll do a simple configure with PHP-FPM and MySQLi support.</p>
+
+<pre><code>shell&gt; cd php-7.2.4
+shell&gt; ./configure --enable-fpm --with-mysqli
+shell&gt; make
+shell&gt; make test
+shell&gt; make install
+return 
+Installing shared extensions: /usr/local/lib/php/extensions/no-debug-non-zts-20170718/
+Installing PHP CLI binary: /usr/local/bin/
+Installing PHP CLI man page: /usr/local/php/man/man1/
+Installing PHP FPM binary: /usr/local/sbin/
+Installing PHP FPM defconfig: /usr/local/etc/
+Installing PHP FPM man page: /usr/local/php/man/man8/
+Installing PHP FPM status page: /usr/local/php/php/fpm/
+Installing phpdbg binary: /usr/local/bin/
+Installing phpdbg man page: /usr/local/php/man/man1/
+Installing PHP CGI binary: /usr/local/bin/
+Installing PHP CGI man page: /usr/local/php/man/man1/
+Installing build environment: /usr/local/lib/php/build/
+Installing header files: /usr/local/include/php/
+Installing helper programs: /usr/local/bin/
+  program: phpize
+  program: php-config
+Installing man pages: /usr/local/php/man/man1/
+  page: phpize.1
+  page: php-config.1
+Installing PEAR environment: /usr/local/lib/php/
+[PEAR] Archive_Tar - installed: 1.4.3
+[PEAR] Console_Getopt - installed: 1.4.1
+[PEAR] Structures_Graph- installed: 1.1.1
+[PEAR] XML_Util - installed: 1.4.2
+[PEAR] PEAR - installed: 1.10.5
+Wrote PEAR system config file at: /usr/local/etc/pear.conf
+You may want to add: /usr/local/lib/php to your php.ini include_path
+/usr/local/src/php-7.2.4/build/shtool install -c ext/phar/phar.phar /usr/local/bin
+ln -s -f phar.phar /usr/local/bin/phar
+Installing PDO headers: /usr/local/include/php/ext/pdo/
+</code></pre>
+
+<p>三、Obtain and move configuration files to their correct locations</p>
+
+<pre><code>shell&gt; cp /usr/local/src/php-7.2.4/php.ini-development /usr/local/lib/php.ini
+shell&gt; cp /usr/local/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf
+shell&gt; cp /usr/local/src/php-7.2.4/sapi/fpm/php-fpm /usr/local/bin
+</code></pre>
+
+<p>四、modify php.ini
+It is important that we prevent Nginx from passing requests to the PHP-FPM backend if the file does not exists, allowing us to prevent arbitrarily script injection.
+We can fix this by setting the cgi.fix_pathinfo directive to 0 within our php.ini file.
+Load up php.ini:</p>
+
+<pre><code>shell&gt; vim /usr/local/lib/php.ini
+cgi.fix_pathinfo=0
+</code></pre>
+
+<p>Locate cgi.fix_pathinfo= and modify it as follows</p>
+
+<p>五、run php-fpm</p>
+
+<pre><code>shell&gt; groupadd www
+shell&gt; useradd www -g www
+</code></pre>
+
+<p>php-fpm.conf must be modified to specify that php-fpm must run as the user <code>www</code> and the group <code>www</code> before we can start the service:
+vim <code>/usr/local/etc/php-fpm.conf</code>，Find and modify the following:</p>
+
+<pre><code>shell&gt; cp /usr/local/etc/php-fpm.d/www.conf.default /usr/local/etc/php-fpm.d/www.conf
+shell&gt; vim /usr/local/etc/php-fpm.d/www.conf
+[www]
+user = www
+group = www
+</code></pre>
+
+<p>The php-fpm service can now be started:</p>
+
+<pre><code>shell&gt; /usr/local/bin/php-fpm
+</code></pre>
+
+<p>thire part：PHP &amp; Nginx
+一、Nginx must now be configured to support the processing of PHP applications:
+vim <code>/usr/local/nginx/conf/nginx.conf</code>
+Modify the default location block to be aware it must attempt to serve .php files:</p>
+
+<pre><code>shell&gt; vim /usr/local/nginx/conf/nginx.conf
+location / {
+    root html;
+    index index.php index.html index.htm;
+}
+</code></pre>
+
+<p>The next step is to ensure that .php files are passed to the PHP-FPM backend. Below the commented default PHP location block, enter the following:</p>
+
+<pre><code>shell&gt; vim /usr/local/nginx/conf/nginx.conf
+location ~ \.php$ {
+     root /usr/local/nginx/html;
+     fastcgi_index index.php;
+     fastcgi_pass 127.0.0.1:9000;
+     include fastcgi_params;
+     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
+</code></pre>
+
+<p>Restart Nginx.</p>
+
+<pre><code>shell&gt; /usr/local/nginx/sbin/nginx -s reload
+</code></pre>
+
+<p>二、Create a test file</p>
+
+<pre><code>rm /usr/local/nginx/html/index.html
+echo &quot;&lt;?php phpinfo(); ?&gt;&quot; &gt;&gt; /usr/local/nginx/html/index.php
+</code></pre>
+
+<p>fourth part：Install MySQL
+eg.<a href="https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz">https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz</a></p>
+
+<pre><code>shell&gt; groupadd mysql
+shell&gt; useradd -r -g mysql -s /bin/false mysql
+shell&gt; cd /usr/local/src
+shell&gt; wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+shell&gt; tar xf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+shell&gt; mv /usr/local/src/mysql-5.7.22-linux-glibc2.12-x86_64 /usr/local/
+shell&gt; cd /usr/local
+shell&gt; ln -s mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz mysql
+shell&gt; cd mysql
+shell&gt; mkdir mysql-files
+shell&gt; chown -R mysql:mysql mysql-files
+shell&gt; chmod 750 mysql-files
+shell&gt; /usr/local/mysql/bin/mysqld --initialize --user=mysql //这一步会返回MySQL密码，一定要记住
+return 
+A temporary password is generated for root@localhost: %:#.wdGNV2C9
+shell&gt; /usr/local/mysql/bin/mysql_ssl_rsa_setup
+shell&gt; /usr/local/mysql/bin/mysqld_safe --user=mysql &amp;
+return
+2018-05-04T12:36:49.064297Z mysqld_safe Logging to '/var/log/mysqld.log'.
+2018-05-04T12:36:49.082759Z mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+2018-05-04T12:36:49.499394Z mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended
+# Add Environment variables--建议官方文档在安装页面加上此行命令
+shell&gt; vim /etc/profile
+# Path manipulation
+if [ &quot;$EUID&quot; = &quot;0&quot; ]; then
+    pathmunge /usr/local/src/mysql/bin
+    pathmunge /etc/init.d
+else
+    pathmunge /usr/local/src/mysql/bin
+    pathmunge /etc/init.d
+fi
+shell&gt; source /etc/profile
+shell&gt; ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+# Next command is optional
+shell&gt; cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql.server
+shell&gt; mysql.server start
+</code></pre>
+
+<p>if start mysql.server return error message,eg.</p>
+
+<pre><code>shell&gt; mysql.server start
+/usr/local/src/mysql/support-files/mysql.server: line 239: my_print_defaults: command not found
+/usr/local/src/mysql/support-files/mysql.server: line 259: cd: /usr/local/mysql: 没有那个文件或目录
+Starting MySQLCouldn't find MySQL server (/usr/local/mysql/[失败]sqld_safe)
+</code></pre>
+
+<p>your have change <code>/usr/local/support-files/mysql.server</code> files.</p>
+
+<pre><code>vim support-files/mysql.server
+/usr/local/mysql replace /usr/local/src/mysql
+mysql.server start
+</code></pre>
+
+<p>if start mysql.server return error message,eg.</p>
+
+<pre><code>shell&gt; mysql.server start
+Starting MySQL...The server quit without updating PID file [失败]lib/mysql/sanqianServer.pid).
+</code></pre>
+
+<p>sorry i don&rsquo;t know</p>
+
+<p>if you want to <code>mysql</code></p>
+
+<pre><code>shell&gt; vim /etc/my.cnf
+[client]
+user=root
+password=qkyrYpd2um&amp;)
+</code></pre>
+
+<p>[root@sanqianServer mysql]# 2018-04-21T10:10:50.118966Z mysqld_safe Logging to &lsquo;/var/log/mysqld.log&rsquo;.//mysqld日志
+2018-04-21T10:10:50.152620Z mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql
+2018-04-21T10:10:51.014194Z mysqld_safe mysqld from pid file /var/run/mysqld/mysqld.pid ended</p>
+
+<p>fifth part：Install Redis
+1、download redis</p>
+
+<pre><code>shell &gt; cd /usr/local/
+shell &gt; wget http://download.redis.io/releases/redis-2.8.17.tar.gz
+</code></pre>
+
+<p>2、Install</p>
+
+<pre><code>shell &gt; tar xf redis-2.8.17.tar.gz
+shell &gt; ln -s redis-2.8.17.tar.gz redis
+shell &gt; cd redis
+shell &gt; make
+return 
+Leaving directory `/usr/local/redis-4.0.9/src'
+</code></pre>
+
+<p>3、start redis</p>
+
+<pre><code>shell &gt; /usr/local/redis/src/redis-server
+</code></pre>
+
+<p>sixth part：PHP &amp; Redis
+一、Install  PHP redis drive
+1、to pull latest stable repleased version phpredis <code>https://github.com/phpredis/phpredis</code></p>
+
+<pre><code>shell &gt; cd /usr/local/
+shell &gt; wget https://github.com/phpredis/phpredis/archive/3.1.4.tar.gz
+shell &gt; cd phpredis-3.1.4 # 进入 phpredis 目录
+shell &gt; /usr/local/bin/phpize # php安装后的路径
+shell &gt; ./configure --with-php-config=/usr/local/bin/php-config
+shell &gt; make &amp;&amp; make install
+</code></pre>
+
+<p>if you have question,like this</p>
+
+<pre><code>shell &gt; /usr/local/bin/phpize 
+return
+Cannot find config.m4.
+Make sure that you run '/usr/local/bin/phpize' in the top level source directory of the module
+</code></pre>
+
+<p>you need run command</p>
+
+<pre><code>cd /usr/loca/src
+wget http://ftp.gnu.org/gnu/m4/m4-1.4.9.tar.gz
+tar xf m4-1.4.9.tar.gz
+mv m4-1.4.9 /usr/loca/
+cd /usr/loca/m4-1.4.9
+./configure &amp;&amp; make &amp;&amp; make install
+
+cd /usr/loca/src
+wget http://ftp.gnu.org/gnu/autoconf/autoconf-2.62.tar.gz
+tar xf autoconf-2.62.tar.gz
+mv autoconf-2.62 /usr/loca/
+cd /usr/loca/autoconf-2.62/
+./configure &amp;&amp; make &amp;&amp; make install
+</code></pre>
+
+<p>2、phpredis can be used to store PHP sessions. To do this, configure session.save_handler and session.save_path in your php.ini to tell phpredis where to store the sessions:</p>
+
+<pre><code>shell &gt; vim /usr/local/lib/php.ini
+session.save_handler = redis
+session.save_path = &quot;tcp://host1:6379?weight=1, tcp://host2:6379?weight=2&amp;timeout=2.5, tcp://host3:6379?weight=2&amp;read_timeout=2.5&quot;
+</code></pre>
+
+<p>3、update php.ini</p>
+
+<pre><code>shell &gt; vim /usr/local/lib/php.ini
+extension_dir = &quot;/usr/local/lib/php/extensions/no-debug-non-zts-20170718/&quot;
+extension=redis.so
+</code></pre>
+
+<p>3、restart php</p>
+
+<pre><code>shell &gt; ps aux | grep php-fpm
+root 105292 0.0 0.0 145288 4984 ? Ss 10:58 0:00 php-fpm: master process (/usr/local/php/etc/php-fpm.conf)
+nobody 105293 0.0 0.0 145352 6052 ? S 10:58 0:00 php-fpm: pool www
+nobody 105294 0.0 0.0 145288 4632 ? S 10:58 0:00 php-fpm: pool www
+root 105342 0.0 0.0 103344 860 pts/3 S+ 11:00 0:00 grep php-fpm
+shell &gt; kill 105292 # php-fpm master 进程
+shell &gt; /usr/local/bin/php-fpm
+shell &gt; ps aux | grep php-fpm
+root 105347 0.0 0.0 147896 5140 ? Ss 11:00 0:00 php-fpm: master process (/usr/local/php/etc/php-fpm.conf)
+nobody 105348 0.0 0.0 147896 4780 ? S 11:00 0:00 php-fpm: pool www
+nobody 105349 0.0 0.0 147896 4780 ? S 11:00 0:00 php-fpm: pool www
+root 105351 0.0 0.0 103344 864 pts/3 S+ 11:00 0:00 grep php-fpm
+</code></pre>
+
+<p>4、restart nginx</p>
+
+<pre><code>shell &gt; /usr/local/nginx/sbin/nginx -s reload
+</code></pre>
+
+<p>5、check</p>
+
+<pre><code>shell &gt; vim redis-demo.php
+&lt;?php
+     //连接本地的 Redis 服务
+     $redis = new Redis();
+     $redis-&gt;connect('127.0.0.1', 6379);
+     echo &quot;Connection to server sucessfully&quot;; //查看服务是否运行
+     echo &quot;Server is running: &quot; . $redis-&gt;ping();
+</code></pre>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>
